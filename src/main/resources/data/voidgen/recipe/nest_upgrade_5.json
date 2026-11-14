@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "voidgen:nest_upgrade_4"
+    },
+    {
+      "item": "voidgen:nest_upgrade_4"
+    },
+    {
+      "item": "minecraft:nether_star"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "voidgen:nest_upgrade_5"
+  }
+}

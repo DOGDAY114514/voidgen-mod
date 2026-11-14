@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "voidgen:void_generator",
+    "voidgen:void_furnace",
+    "voidgen:nothing_collector_1",
+    "voidgen:nothing_collector_2",
+    "voidgen:nothing_collector_3",
+    "voidgen:nothing_collector_4",
+    "voidgen:nothing_collector_5",
+    "voidgen:nothing_distributor",
+    "voidgen:me_void_supplier",
+    "voidgen:void_assembler"
+  ]
+}

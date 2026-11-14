@@ -1,0 +1,10 @@
+{
+  "pack": {
+    "pack_format": 34,
+    "supported_formats": {
+      "min_inclusive": 34,
+      "max_inclusive": 48
+    },
+    "description": "Voidgen v2.0 resources (MC 1.21.1 / NeoForge 21.1)"
+  }
+}

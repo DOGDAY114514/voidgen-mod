@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": {
+      "item": "minecraft:glass"
+    },
+    "b": {
+      "item": "voidgen:void_ingot"
+    },
+    "c": {
+      "item": "minecraft:iron_ingot"
+    },
+    "d": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "pattern": [
+    "aba",
+    "b b",
+    "cdc"
+  ],
+  "result": {
+    "count": 1,
+    "id": "voidgen:void_cell_housing"
+  }
+}

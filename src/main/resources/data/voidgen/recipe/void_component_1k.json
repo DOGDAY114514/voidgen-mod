@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "voidgen:void_ingot"
+    },
+    {
+      "item": "voidgen:void_ingot"
+    },
+    {
+      "item": "voidgen:void_ingot"
+    },
+    {
+      "item": "minecraft:redstone_block"
+    },
+    {
+      "item": "minecraft:ender_pearl"
+    },
+    {
+      "item": "voidgen:void_ingot"
+    },
+    {
+      "item": "voidgen:void_ingot"
+    },
+    {
+      "item": "voidgen:void_ingot"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "voidgen:void_component_1k"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "voidgen:block/void_generator_top",
+    "bottom": "voidgen:block/void_generator_bottom",
+    "side": "voidgen:block/void_generator_side"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "voidgen:void_storage_nether"
+    },
+    {
+      "item": "voidgen:nothing_collector_4"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "voidgen:nothing_collector_5"
+  }
+}

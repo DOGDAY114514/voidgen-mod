@@ -1,0 +1,29 @@
+# build output
+/build/
+/dist/
+/test/
+/libs/compile-only/
+
+# generated/log files
+*.log
+*.jfr
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# python
+__pycache__/
+*.pyc
+
+# extracted third-party reference art (AE2 / MEGA Cells sprites)
+/docs/ae2_ref/
+/docs/ref_components/
+/docs/assembler_ref/
+/docs/cells_v2/
+/docs/cells_v3/
+/docs/ae_cells_v2.png
+/docs/cell_1k_vs_ae2.png
+/docs/component_vs_ae2.png
+/docs/components_vs_refs.png

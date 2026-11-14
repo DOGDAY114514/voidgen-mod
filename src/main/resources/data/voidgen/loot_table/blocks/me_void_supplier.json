@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "voidgen:me_void_supplier"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "voidgen:blocks/me_void_supplier"
+}

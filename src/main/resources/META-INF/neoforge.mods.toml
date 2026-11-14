@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="MIT"
+[[mods]]
+modId="voidgen"
+version="2.3.7"
+displayName="Voidgen - Nothingness"
+description='''Nothingness generator, furnace, storages, collectors and a mob spawner. AE2 integration: ME Interface return, in-world grid, and 1K..256M void storage disks.'''
+authors="Voidgen"
+[[dependencies.voidgen]]
+modId="neoforge"
+type="required"
+versionRange="[21.1.0,)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.voidgen]]
+modId="minecraft"
+type="required"
+versionRange="[1.21.1]"
+ordering="NONE"
+side="BOTH"
+[[dependencies.voidgen]]
+modId="ae2"
+type="optional"
+versionRange="[19.0.0,)"
+ordering="NONE"
+side="BOTH"

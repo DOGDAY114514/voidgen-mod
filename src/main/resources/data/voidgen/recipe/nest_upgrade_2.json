@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "voidgen:nest_upgrade_1"
+    },
+    {
+      "item": "voidgen:nest_upgrade_1"
+    },
+    {
+      "item": "minecraft:gold_block"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "voidgen:nest_upgrade_2"
+  }
+}

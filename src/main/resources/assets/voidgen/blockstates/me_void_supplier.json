@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "voidgen:block/me_void_supplier"
+    }
+  }
+}

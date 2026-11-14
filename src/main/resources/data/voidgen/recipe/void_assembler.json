@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "ae2:pattern_provider"
+    },
+    {
+      "item": "voidgen:void_ingot"
+    },
+    {
+      "item": "voidgen:void_component_1k"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "voidgen:void_assembler"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ae2"
+    }
+  ]
+}

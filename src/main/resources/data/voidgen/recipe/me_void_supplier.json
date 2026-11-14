@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "V": {
+      "item": "voidgen:void_ingot"
+    },
+    "Q": {
+      "item": "minecraft:quartz"
+    },
+    "I": {
+      "item": "voidgen:void_ingot_block"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "pattern": [
+    "VQV",
+    "QIQ",
+    "VRV"
+  ],
+  "result": {
+    "count": 1,
+    "id": "voidgen:me_void_supplier"
+  }
+}

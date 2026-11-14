@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "voidgen:void_component_4m"
+    },
+    {
+      "item": "minecraft:redstone_block"
+    },
+    {
+      "item": "voidgen:void_ingot_block"
+    },
+    {
+      "item": "voidgen:void_ingot_block"
+    },
+    {
+      "item": "voidgen:void_ingot_block"
+    },
+    {
+      "item": "voidgen:void_ingot"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "voidgen:void_component_16m"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "voidgen:filled_void_storage_emerald"
+    },
+    {
+      "item": "voidgen:nothing_collector_3"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "voidgen:nothing_collector_4"
+  }
+}
