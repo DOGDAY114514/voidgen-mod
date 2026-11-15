@@ -10,12 +10,16 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.ChunkEvent;
 
 /**
  * Tracks blocks placed by players (only blocks that carry a block entity are interesting)
@@ -41,9 +45,36 @@ public final class VoidPowerNetwork {
         if (level.getBlockEntity(pos) == null) {
             return;
         }
+        register(level, pos);
+    }
+
+    /** Adds a receiver position (idempotent). */
+    public static void register(Level level, BlockPos pos) {
+        if (level.isClientSide() || level.getBlockEntity(pos) == null) {
+            return;
+        }
         Set<BlockPos> seen = SEEN.computeIfAbsent(level.dimension(), key -> new HashSet<>());
         if (seen.add(pos)) {
             RECEIVERS.computeIfAbsent(level.dimension(), key -> new ArrayList<>()).add(pos);
+        }
+    }
+
+    /**
+     * Chunk-load discovery: scans the loaded chunk's block entities and registers every
+     * machine that exposes an FE handler. This is what makes the generator "just connect"
+     * to machines that existed before the mod was installed or before the server restarted.
+     */
+    public static void onChunkLoad(ChunkEvent.Load event) {
+        if (!(event.getLevel() instanceof ServerLevel level) || level.isClientSide()) {
+            return;
+        }
+        if (!(event.getChunk() instanceof LevelChunk chunk)) {
+            return;
+        }
+        for (BlockPos pos : chunk.getBlockEntities().keySet()) {
+            if (level.getCapability(Capabilities.EnergyStorage.BLOCK, pos, null) != null) {
+                register(level, pos);
+            }
         }
     }
 

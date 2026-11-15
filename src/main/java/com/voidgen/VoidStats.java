@@ -1,6 +1,5 @@
 package com.voidgen;
 
-import com.voidgen.item.BindingCardItem;
 import com.voidgen.item.UpgradeCardItem;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -115,10 +114,6 @@ public final class VoidStats {
 
     public static boolean isSlotCard(ItemStack stack) {
         return typeOf(stack) != null;
-    }
-
-    public static boolean isBindingCard(ItemStack stack) {
-        return stack.getItem() instanceof BindingCardItem;
     }
 
     public static boolean isFurnaceCard(ItemStack stack) {

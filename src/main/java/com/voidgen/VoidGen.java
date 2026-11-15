@@ -16,7 +16,6 @@ import com.voidgen.block.VoidGeneratorBlockEntity;
 import com.voidgen.block.VoidGeneratorMenu;
 import com.voidgen.block.MeVoidSupplierBlock;
 import com.voidgen.block.MeVoidSupplierBlockEntity;
-import com.voidgen.item.BindingCardItem;
 import com.voidgen.item.FilledVoidStorageItem;
 import com.voidgen.item.MobSpawnerItem;
 import com.voidgen.item.NestUpgradeItem;
@@ -49,6 +48,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -105,9 +105,6 @@ public class VoidGen {
             () -> new UpgradeCardItem(UpgradeCardItem.Type.RANGE, new Item.Properties()));
 
     /** Accessory card: scopes wireless power to the machines it binds (auto-connect mode). */
-    public static final DeferredHolder<Item, BindingCardItem> BINDING_CARD = ITEMS.register("binding_card",
-            () -> new BindingCardItem(new Item.Properties()));
-
     // ---- AE2 storage disks: materials + the 1K..256M void disks ----
 
     public static final DeferredHolder<Item, Item> VOID_INGOT = ITEMS.register("void_ingot",
@@ -274,7 +271,6 @@ public class VoidGen {
                         output.accept(OVERCLOCK_CARD.get());
                         output.accept(CAPACITY_CARD.get());
                         output.accept(RANGE_CARD.get());
-                        output.accept(BINDING_CARD.get());
                         output.accept(VOID_FURNACE_ITEM.get());
                         output.accept(VOID_CONFIGURATOR.get());
                         output.accept(VOID_STORAGE_IRON.get());
@@ -341,11 +337,8 @@ public class VoidGen {
                 event -> VoidGeneratorBlockEntity.tickAll(event.getServer()));
 
         NeoForge.EVENT_BUS.addListener(BlockEvent.EntityPlaceEvent.class, VoidPowerNetwork::onPlace);
+        NeoForge.EVENT_BUS.addListener(ChunkEvent.Load.class, VoidPowerNetwork::onChunkLoad);
         NeoForge.EVENT_BUS.addListener(BlockEvent.BreakEvent.class, VoidPowerNetwork::onBreak);
         NeoForge.EVENT_BUS.addListener(EntityTickEvent.Post.class, VoidDropHandler::onEntityTick);
-        NeoForge.EVENT_BUS.addListener(PlayerInteractEvent.RightClickBlock.class, BindingCardItem::onRightClickBlock);
-        NeoForge.EVENT_BUS.addListener(PlayerTickEvent.Post.class, VoidAccessory::onPlayerTick);
-        NeoForge.EVENT_BUS.addListener(PlayerEvent.PlayerLoggedInEvent.class, VoidAccessory::onLoggedIn);
-        NeoForge.EVENT_BUS.addListener(PlayerEvent.Clone.class, VoidAccessory::onClone);
     }
 }

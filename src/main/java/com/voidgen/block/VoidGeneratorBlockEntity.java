@@ -1,6 +1,5 @@
 package com.voidgen.block;
 
-import com.voidgen.VoidAccessory;
 import com.voidgen.VoidGen;
 import com.voidgen.VoidPowerNetwork;
 import com.voidgen.VoidStats;
@@ -58,8 +57,6 @@ public class VoidGeneratorBlockEntity extends BlockEntity implements IEnergyStor
     private int tier;
     private boolean aeOutput;
     private int wirelessCursor;
-    private final java.util.Set<BlockPos> excluded = new java.util.HashSet<>();
-    private final java.util.Set<BlockPos> forced = new java.util.HashSet<>();
 
     private final ContainerData data = new ContainerData() {
         @Override
@@ -165,26 +162,14 @@ public class VoidGeneratorBlockEntity extends BlockEntity implements IEnergyStor
         long rateLeft = rate;
         long wirelessBudget = Math.min(energy, rateLeft);
         if (wirelessBudget > 0) {
-            long forcedMoved = pushForced(level, wirelessBudget);
-            if (forcedMoved > 0) {
-                energy -= forcedMoved;
-                rateLeft -= forcedMoved;
+            VoidPowerNetwork.PushResult result = VoidPowerNetwork.push(
+                    level, worldPosition, wirelessBudget, rate, range(), aeOutput, wirelessCursor);
+            if (result.moved() > 0) {
+                energy -= result.moved();
+                rateLeft -= result.moved();
                 changed = true;
             }
-            long rest = Math.min(energy, rateLeft);
-            if (rest > 0) {
-                java.util.Set<BlockPos> skip = new java.util.HashSet<>(excluded);
-                skip.addAll(forced);
-                VoidPowerNetwork.PushResult result = VoidPowerNetwork.push(level, worldPosition, rest, rate, range(), aeOutput, wirelessCursor, skip);
-                if (result.moved() > 0) {
-                    energy -= result.moved();
-                    rateLeft -= result.moved();
-                    changed = true;
-                }
-                if (result.cursor() != wirelessCursor) {
-                    wirelessCursor = result.cursor();
-                }
-            }
+            wirelessCursor = result.cursor();
         }
         // cross-dimension broadcast (v2.2.2): the same generator feeds player-placed
         // receivers in every loaded dimension, not only its own.
@@ -229,71 +214,6 @@ public class VoidGeneratorBlockEntity extends BlockEntity implements IEnergyStor
     }
 
     // ------------------------------------------------------------------ stats
-
-    /** Pushes to binding-card force-linked targets, ignoring the normal range check. */
-    private long pushForced(Level level, long budget) {
-        long moved = 0;
-        if (forced.isEmpty()) {
-            return 0;
-        }
-        for (BlockPos pos : new java.util.HashSet<>(forced)) {
-            if (budget <= 0) {
-                break;
-            }
-            if (pos.equals(worldPosition) || excluded.contains(pos) || !level.isLoaded(pos)) {
-                continue;
-            }
-            net.neoforged.neoforge.energy.IEnergyStorage target = level.getCapability(
-                    net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.BLOCK, pos, null);
-            if (target == null || !target.canReceive()) {
-                continue;
-            }
-            int accepted = target.receiveEnergy((int) Math.min(Integer.MAX_VALUE, budget), false);
-            if (accepted > 0) {
-                budget -= accepted;
-                moved += accepted;
-            }
-        }
-        return moved;
-    }
-
-    public boolean hasOverride(BlockPos pos) {
-        return excluded.contains(pos) || forced.contains(pos);
-    }
-
-    public boolean withinRange(BlockPos pos) {
-        long range = range();
-        if (range == Long.MAX_VALUE) {
-            return true;
-        }
-        double dx = pos.getX() + 0.5D - (worldPosition.getX() + 0.5D);
-        double dy = pos.getY() + 0.5D - (worldPosition.getY() + 0.5D);
-        double dz = pos.getZ() + 0.5D - (worldPosition.getZ() + 0.5D);
-        return dx * dx + dy * dy + dz * dz <= (double) range * (double) range;
-    }
-
-    /**
-     * Binding-card toggle. Returns 0 = force-added, 1 = excluded,
-     * 2 = restored to default, 3 = force removed.
-     */
-    public int toggleSupply(BlockPos pos) {
-        if (excluded.remove(pos)) {
-            setChanged();
-            return 2;
-        }
-        if (forced.remove(pos)) {
-            setChanged();
-            return 3;
-        }
-        if (withinRange(pos)) {
-            excluded.add(pos);
-            setChanged();
-            return 1;
-        }
-        forced.add(pos);
-        setChanged();
-        return 0;
-    }
 
     public long rate() {
         return VoidStats.rate(tier,
@@ -427,8 +347,6 @@ public class VoidGeneratorBlockEntity extends BlockEntity implements IEnergyStor
         tag.putLong("VoidBuffer", voidBuffer);
         tag.putInt("Tier", tier);
         tag.putBoolean("AeOutput", aeOutput);
-        tag.putLongArray("Excluded", excluded.stream().mapToLong(BlockPos::asLong).toArray());
-        tag.putLongArray("Forced", forced.stream().mapToLong(BlockPos::asLong).toArray());
         tag.put("Cards", cards.serializeNBT(registries));
     }
 
@@ -439,14 +357,6 @@ public class VoidGeneratorBlockEntity extends BlockEntity implements IEnergyStor
         voidBuffer = tag.getLong("VoidBuffer");
         tier = tag.getInt("Tier");
         aeOutput = tag.getBoolean("AeOutput");
-        excluded.clear();
-        for (long packed : tag.getLongArray("Excluded")) {
-            excluded.add(BlockPos.of(packed));
-        }
-        forced.clear();
-        for (long packed : tag.getLongArray("Forced")) {
-            forced.add(BlockPos.of(packed));
-        }
         if (tag.contains("Cards")) {
             cards.deserializeNBT(registries, tag.getCompound("Cards"));
         }
