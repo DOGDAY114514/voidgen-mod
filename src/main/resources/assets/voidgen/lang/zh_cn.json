@@ -173,5 +173,8 @@
   "status.voidgen.supplier_status": "虚无值：%s · 槽内物品：%s",
   "status.voidgen.void_value_line": "虚无值：%s",
   "block.voidgen.void_assembler": "虚空合成器",
-  "tooltip.voidgen.void_assembler": "在 ME 网络中瞬间合成 AE2 处理器（不消耗材料、不需要机器）。"
+  "tooltip.voidgen.void_assembler": "在 ME 网络中瞬间合成 AE2 处理器（不消耗材料、不需要机器）。",
+  "key.categories.voidgen": "Voidgen",
+  "key.voidgen.guide": "Voidgen 使用说明",
+  "gui.voidgen.guide.title": "Voidgen 使用说明"
 }

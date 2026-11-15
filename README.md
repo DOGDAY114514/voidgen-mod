@@ -1,6 +1,6 @@
 # Voidgen · 虚无发电机 + 虚无熔炉 + 虚无值系统 + AE2 虚无磁盘 / 虚空合成器
 
-**Minecraft 1.21.1 · NeoForge 21.1.x · 单文件 mod jar（244.1 KB）**
+**Minecraft 1.21.1 · NeoForge 21.1.x · 单文件 mod jar（249.1 KB）**
 
 凭空发电 + 套娃升级 + AE2 风格内部 GUI + 无线供电 + 升级卡系统 + 绑定卡（精准供电控制）+ 凭空熔炼的虚空熔炉 + 面配置器 + 熔炉 AE 回传 + AE2 线缆直连（网格节点）+ **虚无值系统**（存储器 / 收集装置 / 发散器 / 虚无生物生成器）。不装 AE2 也能玩；装了 AE2（19.x）会作为附属联动。
 
@@ -15,7 +15,7 @@
 >
 ## 文件
 
-- **模组**：[dist/voidgen-2.3.7.jar](dist/voidgen-2.3.7.jar) — 丢进 `.minecraft/mods/` 即可
+- **模组**：[dist/voidgen-2.3.8.jar](dist/voidgen-2.3.8.jar) — 丢进 `.minecraft/mods/` 即可
 - **贴图预览**：[docs/preview.png](docs/preview.png) · 发电机近拍：[docs/zoom.png](docs/zoom.png) · 熔炉近拍：[docs/zoom_furnace.png](docs/zoom_furnace.png) · 卡面近拍：[docs/zoom_cards.png](docs/zoom_cards.png)
 - 源码：[src/main/java/com/voidgen](src/main/java/com/voidgen)
 - 构建/校验脚本：[tools/](tools/)
@@ -23,8 +23,14 @@
 ## 安装
 
 1. Minecraft **1.21.1** + **NeoForge 21.1.x**（Java 21）
-2. 把 `voidgen-2.3.7.jar` 放进 `mods/`
+2. 把 `voidgen-2.3.8.jar` 放进 `mods/`
 3. 可选：加装 **AE2 19.x** 以获得完整联动（线缆直连、能量接收器直连、AE2 加速卡/容量卡兼容、熔炉 AE 回传）
+
+## 游戏内说明（G 键）
+
+- 进游戏后按 **G** 打开「Voidgen 使用说明」窗口：滚轮 / ↑ ↓ / PageUp PageDown 滚动，Esc 或再按 G 关闭。
+- 窗口内分节列出：虚无发电机、虚无值系统、虚无熔炉、AE2 联动（磁盘 / ME 供应器 / 虚空合成器）、常用按键。
+- 按键可以在「选项 → 控制 → Voidgen」里改。
 
 ## 玩法
 
@@ -162,7 +168,7 @@
 
 ```powershell
 python tools/gen_assets.py  # 生成 JSON + 16x16 像素贴图（Pillow）
-& tools/build.ps1           # 编译 + 打包 -> dist/voidgen-2.3.7.jar
+& tools/build.ps1           # 编译 + 打包 -> dist/voidgen-2.3.8.jar
 python tools/validate.py    # 静态校验
 ```
 
@@ -174,7 +180,7 @@ python tools/validate.py    # 静态校验
 
 ```
 voidgen-mod/
-├─ dist/voidgen-2.3.7.jar
+├─ dist/voidgen-2.3.8.jar
 ├─ src/main/java/com/voidgen/
 │  ├─ VoidGen.java                     # 主类：注册 + 能力 + 事件/网络挂接
 │  ├─ VoidStats.java                   # 全部数值/卡牌识别/AE2 id 检测
@@ -205,6 +211,8 @@ voidgen-mod/
 MIT License.
 
 ## 更新日志
+
+> **v2.3.8 游戏内说明**：新增 G 键使用说明窗口（`VoidGuideScreen`）——分节介绍发电机、虚无值系统、熔炉、AE2 联动与按键；滚轮 / 方向键滚动，Esc 或再按 G 关闭。
 
 > **v2.3.7 自动识别附属处理器**：虚空合成器不再写死 AE2 的三个处理器 id——运行时扫描物品注册表，凡是 id 以 `_processor` 结尾、且不是 press/print 中间产物的物品都算处理器。整合包里实测识别到 20 个（AE2 + AdvancedAE / ExtendedAE / MEGA Cells / AppliedFlux / ae2cs / ae2lt / ae2omnicells / appgen / data_energistics / neoecoae 等）。这些处理器各自的配方仍由附属提供（刻印器 / 晶体装配器 / 晶体聚合器等），在 JEI 里按各自分类显示；编码成样板后塞进虚空合成器即可秒合成、照常扣材料。
 >

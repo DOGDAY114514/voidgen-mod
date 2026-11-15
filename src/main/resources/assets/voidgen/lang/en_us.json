@@ -173,5 +173,8 @@
   "status.voidgen.supplier_status": "Void: %s . Slot items: %s",
   "status.voidgen.void_value_line": "Void: %s",
   "block.voidgen.void_assembler": "Void Assembler",
-  "tooltip.voidgen.void_assembler": "Instantly crafts AE2 processors inside the ME network (no inputs, no machine)."
+  "tooltip.voidgen.void_assembler": "Instantly crafts AE2 processors inside the ME network (no inputs, no machine).",
+  "key.categories.voidgen": "Voidgen",
+  "key.voidgen.guide": "Voidgen Guide",
+  "gui.voidgen.guide.title": "Voidgen Guide"
 }
