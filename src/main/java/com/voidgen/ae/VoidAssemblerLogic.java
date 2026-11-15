@@ -28,10 +28,11 @@ import net.minecraft.world.item.Item;
  * them from the crafting CPU before calling us and keeps them consumed when we
  * return {@code true} (it refunds them when we return {@code false}).
  *
- * <p>Accepted outputs are processors, detected dynamically from the item registry:
- * any item whose registry id ends with {@code _processor} (and is not a press or
- * print intermediate) counts, so processors added by AE2 addons (Advanced AE,
- * ExtendedAE, MEGA Cells, AppliedFlux, ...) work without hardcoding their ids.</p>
+ * <p>Accepted outputs are AE2 processor-chain items, detected dynamically from the
+ * item registry: any item whose registry id contains {@code processor}, plus the
+ * {@code printed_*} intermediates made by the inscriber. That means patterns for
+ * the inscriber / crystal assembler / circuit cutter (AE2 and its addons) can be
+ * encoded straight from JEI with the "+" button and pushed into this provider.</p>
  */
 public class VoidAssemblerLogic extends PatternProviderLogic {
     private static volatile Set<Item> processorCache;
@@ -99,7 +100,7 @@ public class VoidAssemblerLogic extends PatternProviderLogic {
         return true;
     }
 
-    /** Processor detection: id ends with {@code _processor}, excluding press/print items. */
+    /** Processor-chain detection: processors plus the inscriber's printed intermediates. */
     public static boolean isAeProcessor(Item item) {
         Set<Item> cache = processorCache;
         if (cache == null) {
@@ -114,8 +115,10 @@ public class VoidAssemblerLogic extends PatternProviderLogic {
         for (Item item : BuiltInRegistries.ITEM) {
             ResourceLocation id = BuiltInRegistries.ITEM.getKey(item);
             String path = id.getPath();
-            if ((path.endsWith("_processor") || path.equals("processor"))
-                    && !path.contains("press") && !path.contains("print")) {
+            boolean printed = path.startsWith("printed_");
+            boolean processor = path.contains("processor");
+            boolean press = path.contains("press");
+            if ((processor || printed) && !press) {
                 found.add(item);
             }
         }

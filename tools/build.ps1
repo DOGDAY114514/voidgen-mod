@@ -46,7 +46,7 @@ Write-Host "[4/4] package"
 Copy-Item -Recurse -Force (Join-Path $Build "classes\*") (Join-Path $Build "jar")
 Copy-Item -Recurse -Force (Join-Path $Root "src\main\resources\*") (Join-Path $Build "jar")
 New-Item -ItemType Directory -Force (Join-Path $Root "dist") | Out-Null
-$OutJar = Join-Path $Root "dist\voidgen-2.3.8.jar"
+$OutJar = Join-Path $Root "dist\voidgen-2.3.9.jar"
 & (Join-Path $Jdk "bin\jar.exe") --create --file $OutJar -C (Join-Path $Build "jar") .
 if ($LASTEXITCODE -ne 0) { throw "jar failed" }
 Write-Host "OK: $OutJar"
