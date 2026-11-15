@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "voidgen:block/void_ingot_block"
+    }
+  }
+}

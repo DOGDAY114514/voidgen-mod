@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "voidgen:item/void_ingot_block"
-  }
+  "parent": "voidgen:block/void_ingot_block"
 }

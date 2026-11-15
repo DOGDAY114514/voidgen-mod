@@ -110,8 +110,12 @@ public class VoidGen {
     public static final DeferredHolder<Item, Item> VOID_INGOT = ITEMS.register("void_ingot",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
 
-    public static final DeferredHolder<Item, Item> VOID_INGOT_BLOCK = ITEMS.register("void_ingot_block",
-            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final DeferredHolder<Block, Block> VOID_INGOT_BLOCK = BLOCKS.register("void_ingot_block",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE)
+                    .strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+
+    public static final DeferredHolder<Item, BlockItem> VOID_INGOT_BLOCK_ITEM = ITEMS.register("void_ingot_block",
+            () -> new BlockItem(VOID_INGOT_BLOCK.get(), new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     /** The 1K..256M void components, one per disk tier. */
     public static final java.util.List<DeferredHolder<Item, Item>> VOID_COMPONENTS = new java.util.ArrayList<>();
@@ -295,7 +299,7 @@ public class VoidGen {
                         output.accept(VOID_VALUE.get());
                         output.accept(MOB_SPAWNER.get());
                         output.accept(VOID_INGOT.get());
-                        output.accept(VOID_INGOT_BLOCK.get());
+                        output.accept(VOID_INGOT_BLOCK_ITEM.get());
                         for (DeferredHolder<Item, Item> component : VOID_COMPONENTS) {
                             output.accept(component.get());
                         }
