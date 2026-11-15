@@ -2,14 +2,13 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "i": {
-      "item": "voidgen:void_ingot"
+    "f": {
+      "item": "voidgen:floating_crystal"
     }
   },
   "pattern": [
-    "iii",
-    "iii",
-    "iii"
+    "ff",
+    "ff"
   ],
   "result": {
     "count": 1,

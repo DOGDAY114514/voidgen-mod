@@ -1,22 +1,30 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
+  "neoforge:conditions": [
     {
+      "type": "neoforge:mod_loaded",
+      "modid": "ae2"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": {
+      "tag": "c:dusts/coal"
+    },
+    "b": {
+      "item": "voidgen:void_processor"
+    },
+    "c": {
       "item": "voidgen:void_component_1m"
     },
-    {
-      "item": "minecraft:redstone_block"
-    },
-    {
-      "item": "voidgen:void_ingot_block"
-    },
-    {
-      "item": "voidgen:void_ingot_block"
-    },
-    {
-      "item": "voidgen:void_ingot"
+    "d": {
+      "item": "ae2:quartz_glass"
     }
+  },
+  "pattern": [
+    "aba",
+    "cdc",
+    "aca"
   ],
   "result": {
     "count": 1,

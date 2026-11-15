@@ -1,31 +1,27 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
+  "neoforge:conditions": [
     {
-      "item": "voidgen:void_ingot"
-    },
-    {
-      "item": "voidgen:void_ingot"
-    },
-    {
-      "item": "voidgen:void_ingot"
-    },
-    {
-      "item": "minecraft:redstone_block"
-    },
-    {
-      "item": "minecraft:ender_pearl"
-    },
-    {
-      "item": "voidgen:void_ingot"
-    },
-    {
-      "item": "voidgen:void_ingot"
-    },
-    {
-      "item": "voidgen:void_ingot"
+      "type": "neoforge:mod_loaded",
+      "modid": "ae2"
     }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": {
+      "tag": "c:dusts/redstone"
+    },
+    "b": {
+      "item": "voidgen:floating_crystal"
+    },
+    "c": {
+      "item": "ae2:logic_processor"
+    }
+  },
+  "pattern": [
+    "aba",
+    "bcb",
+    "aba"
   ],
   "result": {
     "count": 1,

@@ -158,6 +158,14 @@ public class VoidGen {
     public static final DeferredHolder<Item, Item> VOID_CELL_HOUSING = ITEMS.register("void_cell_housing",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
 
+    /** Circuit board sliced from a void block; pressed into floating processors. */
+    public static final DeferredHolder<Item, Item> VOID_CIRCUIT_BOARD = ITEMS.register("void_circuit_board",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+
+    /** The processor used by 1M..256M void storage components. */
+    public static final DeferredHolder<Item, Item> VOID_PROCESSOR = ITEMS.register("void_processor",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+
     // ---- Void Furnace ----
 
     public static final DeferredHolder<Block, VoidFurnaceBlock> VOID_FURNACE = BLOCKS.register("void_furnace",
@@ -338,6 +346,8 @@ public class VoidGen {
                             output.accept(component.get());
                         }
                         output.accept(VOID_CELL_HOUSING.get());
+                        output.accept(VOID_CIRCUIT_BOARD.get());
+                        output.accept(VOID_PROCESSOR.get());
                         for (DeferredHolder<Item, ? extends Item> cell : VoidCellItems.CELLS) {
                             output.accept(cell.get());
                         }
