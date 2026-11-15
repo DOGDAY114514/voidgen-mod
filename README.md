@@ -1,6 +1,6 @@
 # Voidgen · 虚无发电机 + 虚无熔炉 + 虚无值系统 + AE2 虚无磁盘 / 虚空合成器
 
-**Minecraft 1.21.1 · NeoForge 21.1.x · 单文件 mod jar（244.8 KB）**
+**Minecraft 1.21.1 · NeoForge 21.1.x · 单文件 mod jar（245.9 KB）**
 
 凭空发电 + 套娃升级 + AE2 风格内部 GUI + 无线供电 + 升级卡系统 + 跨维度自动无线供电 + 凭空熔炼的虚空熔炉 + 面配置器 + 熔炉 AE 回传 + AE2 线缆直连（网格节点）+ **虚无值系统**（存储器 / 收集装置 / 发散器 / 虚无生物生成器）。不装 AE2 也能玩；装了 AE2（19.x）会作为附属联动。
 
@@ -15,7 +15,7 @@
 >
 ## 文件
 
-- **模组**：[dist/voidgen-2.5.1.jar](dist/voidgen-2.5.1.jar) — 丢进 `.minecraft/mods/` 即可
+- **模组**：[dist/voidgen-2.5.2.jar](dist/voidgen-2.5.2.jar) — 丢进 `.minecraft/mods/` 即可
 - **贴图预览**：[docs/preview.png](docs/preview.png) · 发电机近拍：[docs/zoom.png](docs/zoom.png) · 熔炉近拍：[docs/zoom_furnace.png](docs/zoom_furnace.png) · 卡面近拍：[docs/zoom_cards.png](docs/zoom_cards.png)
 - 源码：[src/main/java/com/voidgen](src/main/java/com/voidgen)
 - 构建/校验脚本：[tools/](tools/)
@@ -23,7 +23,7 @@
 ## 安装
 
 1. Minecraft **1.21.1** + **NeoForge 21.1.x**（Java 21）
-2. 把 `voidgen-2.5.1.jar` 放进 `mods/`
+2. 把 `voidgen-2.5.2.jar` 放进 `mods/`
 3. 可选：加装 **AE2 19.x** 以获得完整联动（线缆直连、能量接收器直连、AE2 加速卡/容量卡兼容、熔炉 AE 回传）
 
 ## 游戏内说明（G 键）
@@ -170,7 +170,7 @@
 
 ```powershell
 python tools/gen_assets.py  # 生成 JSON + 16x16 像素贴图（Pillow）
-& tools/build.ps1           # 编译 + 打包 -> dist/voidgen-2.5.1.jar
+& tools/build.ps1           # 编译 + 打包 -> dist/voidgen-2.5.2.jar
 python tools/validate.py    # 静态校验
 ```
 
@@ -182,7 +182,7 @@ python tools/validate.py    # 静态校验
 
 ```
 voidgen-mod/
-├─ dist/voidgen-2.5.1.jar
+├─ dist/voidgen-2.5.2.jar
 ├─ src/main/java/com/voidgen/
 │  ├─ VoidGen.java                     # 主类：注册 + 能力 + 事件/网络挂接
 │  ├─ VoidStats.java                   # 全部数值/卡牌识别/AE2 id 检测
@@ -213,6 +213,8 @@ voidgen-mod/
 MIT License.
 
 ## 更新日志
+
+> **v2.5.2 虚浮水晶/粉特效**：水晶改为斜向晶簇造型，水晶粉改为旋转光点团，两者都加了环绕光点动画（8 帧，frametime 3，插值），与紫水晶粉一眼区分。
 
 > **v2.5.1 虚浮水晶粉获取**：1 赛特斯石英 → 2 虚浮水晶粉（无序，需 AE2）；1 虚浮水晶 → 4 虚浮水晶粉（无序）。
 
