@@ -1,6 +1,6 @@
 # Voidgen · 虚无发电机 + 虚无熔炉 + 虚无值系统 + AE2 虚无磁盘 / 虚空合成器
 
-**Minecraft 1.21.1 · NeoForge 21.1.x · 单文件 mod jar（230.9 KB）**
+**Minecraft 1.21.1 · NeoForge 21.1.x · 单文件 mod jar（244.1 KB）**
 
 凭空发电 + 套娃升级 + AE2 风格内部 GUI + 无线供电 + 升级卡系统 + 跨维度自动无线供电 + 凭空熔炼的虚空熔炉 + 面配置器 + 熔炉 AE 回传 + AE2 线缆直连（网格节点）+ **虚无值系统**（存储器 / 收集装置 / 发散器 / 虚无生物生成器）。不装 AE2 也能玩；装了 AE2（19.x）会作为附属联动。
 
@@ -15,7 +15,7 @@
 >
 ## 文件
 
-- **模组**：[dist/voidgen-2.3.8.jar](dist/voidgen-2.3.8.jar) — 丢进 `.minecraft/mods/` 即可
+- **模组**：[dist/voidgen-2.5.0.jar](dist/voidgen-2.5.0.jar) — 丢进 `.minecraft/mods/` 即可
 - **贴图预览**：[docs/preview.png](docs/preview.png) · 发电机近拍：[docs/zoom.png](docs/zoom.png) · 熔炉近拍：[docs/zoom_furnace.png](docs/zoom_furnace.png) · 卡面近拍：[docs/zoom_cards.png](docs/zoom_cards.png)
 - 源码：[src/main/java/com/voidgen](src/main/java/com/voidgen)
 - 构建/校验脚本：[tools/](tools/)
@@ -23,7 +23,7 @@
 ## 安装
 
 1. Minecraft **1.21.1** + **NeoForge 21.1.x**（Java 21）
-2. 把 `voidgen-2.3.8.jar` 放进 `mods/`
+2. 把 `voidgen-2.5.0.jar` 放进 `mods/`
 3. 可选：加装 **AE2 19.x** 以获得完整联动（线缆直连、能量接收器直连、AE2 加速卡/容量卡兼容、熔炉 AE 回传）
 
 ## 游戏内说明（G 键）
@@ -118,6 +118,16 @@
 - **编译期**：用整合包里的 `appliedenergistics2-19.2.18.jar` 作为 compileOnly 参考（放在 `libs/compile-only/`，不会打进 mod jar），`com.voidgen.ae.*` 只在运行期检测到 AE2 时才被加载。
 - 已核对 AE2 19.2.18：`AECapabilities.IN_WORLD_GRID_NODE_HOST`（`BlockCapability<IInWorldGridNodeHost, Void>`）、`GridHelper.createManagedNode`、`IManagedGridNode.create/saveToNBT/loadFromNBT/destroy`、`AECableType.SMART`、`StorageHelper.poweredInsert`、`IGrid.getStorageService().getInventory()`、`IGrid.getEnergyService()`、`IActionSource.empty()`。
 
+## 虚浮水晶（v2.5.0）
+
+- **虚浮水晶** / **虚浮水晶粉**：由 AE2 赛特斯系列重绘（紫罗兰 + 青色）。
+- **世界交互**：把 **赛特斯石英** 和 **虚浮水晶粉** 一起丢进水里，约 5 秒后石英变成虚浮水晶（每颗消耗 1 份粉）。
+- **4 种虚浮水晶石英母岩**：损坏 / 开裂 / 有瑕 / 无瑕，参考 AE2 budding quartz 系列重绘，兼具装饰与镐挖掉落。
+- **反应仓配方**（需要 AdvancedAE，整合包里自带 `advanced_ae:reaction_chamber`）：
+  - 虚无锭：32 虚浮水晶粉 + 32 铜锭 + 32 锇锭 + 500mB 水 → 64 虚无锭
+  - 虚浮水晶：32 赛特斯石英 + 32 虚浮水晶粉 → 64
+  - 虚浮水晶：16 充能赛特斯石英 + 16 红石 + 16 煤炭 → 64
+
 ## 配方
 
 - **虚空发电机**：铁块 + 熔炉 + 2 红石块（无序）
@@ -160,11 +170,11 @@
 
 ```powershell
 python tools/gen_assets.py  # 生成 JSON + 16x16 像素贴图（Pillow）
-& tools/build.ps1           # 编译 + 打包 -> dist/voidgen-2.3.8.jar
+& tools/build.ps1           # 编译 + 打包 -> dist/voidgen-2.5.0.jar
 python tools/validate.py    # 静态校验
 ```
 
-校验通过项：jar 结构（29 个 class，无桩类泄漏、无 AE2/Netty 类泄漏）、`@Mod` 注解、`@EventBusSubscriber`、网络 payload、35 个 JSON、16 张 16×16 RGBA 贴图、13 个配方、83 个语言键（中英一致）、两个菜单/屏幕类与物品/能量能力注册完整；AE2 网格能力由反射桥按需加载。
+校验通过项：jar 结构（68 个 class，无桩类泄漏、无 AE2/Netty 类泄漏）、`@Mod` 注解、`@EventBusSubscriber`、网络 payload、160 个 JSON、66 张贴图（16×16 及 16×N 动画帧）、52 个配方、165 个语言键（中英一致）、菜单/屏幕类与物品/能量/AE2 节点能力注册完整；AE2 网格能力由反射桥按需加载。
 
 **注意**：本机无法启动 NeoForge 客户端，未做游戏内实测。进游戏若有报错，把 `logs/latest.log` 发我即可修。
 
@@ -172,7 +182,7 @@ python tools/validate.py    # 静态校验
 
 ```
 voidgen-mod/
-├─ dist/voidgen-2.3.8.jar
+├─ dist/voidgen-2.5.0.jar
 ├─ src/main/java/com/voidgen/
 │  ├─ VoidGen.java                     # 主类：注册 + 能力 + 事件/网络挂接
 │  ├─ VoidStats.java                   # 全部数值/卡牌识别/AE2 id 检测
@@ -203,6 +213,8 @@ voidgen-mod/
 MIT License.
 
 ## 更新日志
+
+> **v2.5.0 虚浮水晶体系**：新增虚浮水晶 / 虚浮水晶粉 / 4 种虚浮水晶石英母岩（AE2 赛特斯系列重绘）；赛特斯石英 + 粉丢水里约 5 秒转化为虚浮水晶；虚无锭改用 AdvancedAE 反应仓配方（32 粉 + 32 铜锭 + 32 锇锭 + 500mB 水 → 64），另加两条虚浮水晶反应仓配方。
 
 > **v2.4.1 虚无锭块改成真正的方块**：不再是平面物品图标——注册为可放置方块（紫罗兰金属 + 青色菱形镶嵌面），背包里按方块渲染（和钻石块/铁块同款 3D 图标），带上 blockstate/模型/掉落表/镐挖掘标签；合成仍是 9 虚无锭 ↔ 1 虚无锭块。
 

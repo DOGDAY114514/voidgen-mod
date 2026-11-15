@@ -156,5 +156,12 @@
   "tooltip.voidgen.void_ingot": "Condensed nothingness; used for AE2-style void disks.",
   "tooltip.voidgen.void_ingot_block": "Nine void ingots compressed into one block.",
   "tooltip.voidgen.void_value": "1 item = 1,000 void value",
-  "tooltip.voidgen.void_value.hint": "ME Import Bus can pull it into AE (void disks required)"
+  "tooltip.voidgen.void_value.hint": "ME Import Bus can pull it into AE (void disks required)",
+  "item.voidgen.floating_crystal": "Floating Crystal",
+  "item.voidgen.floating_crystal_dust": "Floating Crystal Dust",
+  "block.voidgen.floating_budding_damaged": "Damaged Floating Crystal Budding Rock",
+  "block.voidgen.floating_budding_chipped": "Chipped Floating Crystal Budding Rock",
+  "block.voidgen.floating_budding_flawed": "Flawed Floating Crystal Budding Rock",
+  "block.voidgen.floating_budding_flawless": "Flawless Floating Crystal Budding Rock",
+  "tooltip.voidgen.floating_crystal": "Grows in water from certus quartz and floating dust."
 }

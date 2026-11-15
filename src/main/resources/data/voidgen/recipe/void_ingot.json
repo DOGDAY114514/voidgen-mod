@@ -1,19 +1,41 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
+  "neoforge:conditions": [
     {
-      "item": "voidgen:filled_void_storage_emerald"
-    },
-    {
-      "item": "minecraft:nether_star"
-    },
-    {
-      "item": "minecraft:diamond_block"
+      "type": "neoforge:mod_loaded",
+      "modid": "advanced_ae"
     }
   ],
-  "result": {
-    "count": 8,
+  "type": "advanced_ae:reaction",
+  "input_energy": 400000,
+  "input_fluid": {
+    "amount": 500,
+    "ingredient": {
+      "fluid": "minecraft:water"
+    }
+  },
+  "input_items": [
+    {
+      "amount": 32,
+      "ingredient": {
+        "item": "voidgen:floating_crystal_dust"
+      }
+    },
+    {
+      "amount": 32,
+      "ingredient": {
+        "tag": "c:ingots/copper"
+      }
+    },
+    {
+      "amount": 32,
+      "ingredient": {
+        "tag": "c:ingots/osmium"
+      }
+    }
+  ],
+  "output": {
+    "#": 64,
+    "#t": "ae2:i",
     "id": "voidgen:void_ingot"
   }
 }

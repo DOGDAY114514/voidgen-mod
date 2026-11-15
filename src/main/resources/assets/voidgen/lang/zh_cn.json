@@ -156,5 +156,12 @@
   "tooltip.voidgen.void_ingot": "凝聚的虚无，用于合成 AE2 风格的虚无磁盘。",
   "tooltip.voidgen.void_ingot_block": "9 个虚无锭压成的方块，方便合成高级磁盘。",
   "tooltip.voidgen.void_value": "1 个 = 1,000 虚无值",
-  "tooltip.voidgen.void_value.hint": "ME 输入总线可把它吸进 AE（需要虚无磁盘存储）"
+  "tooltip.voidgen.void_value.hint": "ME 输入总线可把它吸进 AE（需要虚无磁盘存储）",
+  "item.voidgen.floating_crystal": "虚浮水晶",
+  "item.voidgen.floating_crystal_dust": "虚浮水晶粉",
+  "block.voidgen.floating_budding_damaged": "损坏的虚浮水晶石英母岩",
+  "block.voidgen.floating_budding_chipped": "开裂的虚浮水晶石英母岩",
+  "block.voidgen.floating_budding_flawed": "有瑕的虚浮水晶石英母岩",
+  "block.voidgen.floating_budding_flawless": "无瑕的虚浮水晶石英母岩",
+  "tooltip.voidgen.floating_crystal": "将赛特斯石英与虚浮水晶粉投入水中，一段时间后生成。"
 }

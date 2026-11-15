@@ -117,6 +117,34 @@ public class VoidGen {
     public static final DeferredHolder<Item, BlockItem> VOID_INGOT_BLOCK_ITEM = ITEMS.register("void_ingot_block",
             () -> new BlockItem(VOID_INGOT_BLOCK.get(), new Item.Properties().rarity(Rarity.UNCOMMON)));
 
+    // ---- floating crystal family (certus-series inspired) ----
+
+    public static final DeferredHolder<Item, Item> FLOATING_CRYSTAL = ITEMS.register("floating_crystal",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+
+    public static final DeferredHolder<Item, Item> FLOATING_CRYSTAL_DUST = ITEMS.register("floating_crystal_dust",
+            () -> new Item(new Item.Properties()));
+
+    public static final DeferredHolder<Block, Block> FLOATING_BUDDING_DAMAGED = budding("floating_budding_damaged");
+    public static final DeferredHolder<Block, Block> FLOATING_BUDDING_CHIPPED = budding("floating_budding_chipped");
+    public static final DeferredHolder<Block, Block> FLOATING_BUDDING_FLAWED = budding("floating_budding_flawed");
+    public static final DeferredHolder<Block, Block> FLOATING_BUDDING_FLAWLESS = budding("floating_budding_flawless");
+
+    public static final DeferredHolder<Item, BlockItem> FLOATING_BUDDING_DAMAGED_ITEM = buddingItem("floating_budding_damaged", FLOATING_BUDDING_DAMAGED);
+    public static final DeferredHolder<Item, BlockItem> FLOATING_BUDDING_CHIPPED_ITEM = buddingItem("floating_budding_chipped", FLOATING_BUDDING_CHIPPED);
+    public static final DeferredHolder<Item, BlockItem> FLOATING_BUDDING_FLAWED_ITEM = buddingItem("floating_budding_flawed", FLOATING_BUDDING_FLAWED);
+    public static final DeferredHolder<Item, BlockItem> FLOATING_BUDDING_FLAWLESS_ITEM = buddingItem("floating_budding_flawless", FLOATING_BUDDING_FLAWLESS);
+
+    private static DeferredHolder<Block, Block> budding(String id) {
+        return BLOCKS.register(id, () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE)
+                .strength(4.0F, 8.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
+    }
+
+    private static DeferredHolder<Item, BlockItem> buddingItem(String id, DeferredHolder<Block, Block> block) {
+        return ITEMS.register(id, () -> new BlockItem(block.get(), new Item.Properties()));
+    }
+
+
     /** The 1K..256M void components, one per disk tier. */
     public static final java.util.List<DeferredHolder<Item, Item>> VOID_COMPONENTS = new java.util.ArrayList<>();
 
@@ -300,6 +328,12 @@ public class VoidGen {
                         output.accept(MOB_SPAWNER.get());
                         output.accept(VOID_INGOT.get());
                         output.accept(VOID_INGOT_BLOCK_ITEM.get());
+                        output.accept(FLOATING_CRYSTAL.get());
+                        output.accept(FLOATING_CRYSTAL_DUST.get());
+                        output.accept(FLOATING_BUDDING_DAMAGED_ITEM.get());
+                        output.accept(FLOATING_BUDDING_CHIPPED_ITEM.get());
+                        output.accept(FLOATING_BUDDING_FLAWED_ITEM.get());
+                        output.accept(FLOATING_BUDDING_FLAWLESS_ITEM.get());
                         for (DeferredHolder<Item, Item> component : VOID_COMPONENTS) {
                             output.accept(component.get());
                         }
@@ -344,5 +378,6 @@ public class VoidGen {
         NeoForge.EVENT_BUS.addListener(ChunkEvent.Load.class, VoidPowerNetwork::onChunkLoad);
         NeoForge.EVENT_BUS.addListener(BlockEvent.BreakEvent.class, VoidPowerNetwork::onBreak);
         NeoForge.EVENT_BUS.addListener(EntityTickEvent.Post.class, VoidDropHandler::onEntityTick);
+        NeoForge.EVENT_BUS.addListener(EntityTickEvent.Post.class, WaterCrystalHandler::onEntityTick);
     }
 }
