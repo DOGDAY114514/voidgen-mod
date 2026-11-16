@@ -71,7 +71,12 @@ public final class VoidPowerNetwork {
         if (!(event.getChunk() instanceof LevelChunk chunk)) {
             return;
         }
-        for (BlockPos pos : chunk.getBlockEntities().keySet()) {
+        // Chunks loaded from disk keep their block entities as *pending NBT* until
+        // something asks for them; LevelChunk.getBlockEntities() is therefore empty here.
+        // getBlockEntitiesPos() also lists the pending ones, and the capability lookup
+        // forces each pending block entity to be instantiated (LevelChunk.getBlockEntity
+        // promotes it) before we register it.
+        for (BlockPos pos : chunk.getBlockEntitiesPos()) {
             if (level.getCapability(Capabilities.EnergyStorage.BLOCK, pos, null) != null) {
                 register(level, pos);
             }
