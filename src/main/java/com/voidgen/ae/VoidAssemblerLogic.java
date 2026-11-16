@@ -1,5 +1,6 @@
 package com.voidgen.ae;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +20,11 @@ import appeng.helpers.patternprovider.PatternProviderLogicHost;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
  * "Void crafting" pattern provider logic: when the crafting CPU pushes a pattern,
@@ -30,9 +35,14 @@ import net.minecraft.world.item.Item;
  *
  * <p>Accepted outputs are AE2 processor-chain items, detected dynamically from the
  * item registry: any item whose registry id contains {@code processor}, plus the
- * {@code printed_*} intermediates made by the inscriber. That means patterns for
- * the inscriber / crystal assembler / circuit cutter (AE2 and its addons) can be
- * encoded straight from JEI with the "+" button and pushed into this provider.</p>
+ * {@code printed_*} intermediates made by the inscriber.</p>
+ *
+ * <p>Important: the actual insertion is deferred to the next server tick. AE2 only
+ * adds the expected outputs to the CPU's {@code waitingFor} list <em>after</em>
+ * {@link #pushPattern} returns; inserting synchronously would put the items into
+ * storage before the CPU watches for them, leaving the job stuck in "requesting"
+ * forever. Pushing them one tick later lets the crafting CPU intercept them
+ * (it is registered as a storage provider on the grid) and finish the job.</p>
  */
 public class VoidAssemblerLogic extends PatternProviderLogic {
     private static volatile Set<Item> processorCache;
@@ -67,8 +77,8 @@ public class VoidAssemblerLogic extends PatternProviderLogic {
         }
 
         // Refuse "free" patterns: consuming nothing to create processors would be
-        // duplicating items out of thin air. A real crafting pattern always has
-        // at least one input stack.
+        // duplicating items out of thin air. A real crafting pattern always has at
+        // least one input stack.
         int inputEntries = 0;
         if (inputs != null) {
             for (KeyCounter counter : inputs) {
@@ -79,25 +89,46 @@ public class VoidAssemblerLogic extends PatternProviderLogic {
             return false;
         }
 
+        BlockEntity host = hostRef.getBlockEntity();
+        if (!(host.getLevel() instanceof ServerLevel serverLevel)) {
+            return false;
+        }
+        MinecraftServer server = serverLevel.getServer();
+
+        MEStorage storage = grid.getStorageService().getInventory();
+        IActionSource source = IActionSource.ofMachine((IActionHost) host);
+        // Simulate first, so a job is only accepted when every output can be stored.
+        for (GenericStack output : outputs) {
+            if (storage.insert(output.what(), output.amount(), Actionable.SIMULATE, source) < output.amount()) {
+                return false;
+            }
+        }
+
+        List<GenericStack> pending = new ArrayList<>(outputs.size());
+        for (GenericStack output : outputs) {
+            pending.add(new GenericStack(output.what(), output.amount()));
+        }
+        // Run after the current tick: by then the CPU has registered waitingFor.
+        server.tell(new TickTask(server.getTickCount(), () -> insertOutputs(pending)));
+        return true;
+    }
+
+    private void insertOutputs(List<GenericStack> outputs) {
+        IGrid grid = getGrid();
+        if (grid == null) {
+            return;
+        }
         MEStorage storage = grid.getStorageService().getInventory();
         IActionSource source = IActionSource.ofMachine((IActionHost) hostRef.getBlockEntity());
-
-        // Simulate first. Inserting with MODULATE and then returning false would
-        // refund the inputs while keeping the already-inserted outputs, which would
-        // duplicate items. Only insert for real once every output is guaranteed to fit.
-        for (GenericStack output : outputs) {
-            long simulated = storage.insert(output.what(), output.amount(), Actionable.SIMULATE, source);
-            if (simulated < output.amount()) {
-                return false;
-            }
-        }
         for (GenericStack output : outputs) {
             long inserted = storage.insert(output.what(), output.amount(), Actionable.MODULATE, source);
-            if (inserted < output.amount()) {
-                return false;
+            long leftover = output.amount() - inserted;
+            if (leftover > 0) {
+                // The return inventory is pushed back into the network by AE2 later,
+                // so nothing is ever dropped on the floor.
+                getReturnInv().insert(output.what(), leftover, Actionable.MODULATE, source);
             }
         }
-        return true;
     }
 
     /** Processor-chain detection: processors plus the inscriber's printed intermediates. */

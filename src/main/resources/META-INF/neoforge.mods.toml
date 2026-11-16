@@ -3,7 +3,7 @@ loaderVersion="[4,)"
 license="MIT"
 [[mods]]
 modId="voidgen"
-version="2.6.1"
+version="2.6.2"
 displayName="Voidgen - Nothingness"
 description='''Nothingness generator, furnace, storages, collectors and a mob spawner. AE2 integration: ME Interface return, in-world grid, and 1K..256M void storage disks.'''
 authors="Voidgen"
