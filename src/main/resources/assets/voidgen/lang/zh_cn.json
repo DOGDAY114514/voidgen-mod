@@ -167,5 +167,6 @@
   "item.voidgen.void_processor": "虚浮处理器",
   "item.voidgen.void_circuit_board": "虚无电路板",
   "tooltip.voidgen.void_processor": "在水晶装配器中由虚无电路板、硅板、煤粉压制成型。",
-  "tooltip.voidgen.void_circuit_board": "用切片器切割虚无块获得。"
+  "tooltip.voidgen.void_circuit_board": "用切片器切割虚无块获得。",
+  "tooltip.voidgen.tier": "等级: %s"
 }

@@ -167,5 +167,6 @@
   "item.voidgen.void_processor": "Floating Processor",
   "item.voidgen.void_circuit_board": "Void Circuit Board",
   "tooltip.voidgen.void_processor": "Pressed in the crystal assembler from a void circuit board, printed silicon and coal dust.",
-  "tooltip.voidgen.void_circuit_board": "Sliced from a void block in the circuit cutter."
+  "tooltip.voidgen.void_circuit_board": "Sliced from a void block in the circuit cutter.",
+  "tooltip.voidgen.tier": "Tier: %s"
 }

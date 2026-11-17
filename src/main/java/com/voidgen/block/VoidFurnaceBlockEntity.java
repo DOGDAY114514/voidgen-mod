@@ -200,6 +200,26 @@ public class VoidFurnaceBlockEntity extends BlockEntity implements MenuProvider 
         return tier;
     }
 
+    /** Sets the tier from a placed item and mirrors it into the block state. */
+    public void setTier(int newTier) {
+        this.tier = Math.max(0, Math.min(VoidStats.MAX_TIER, newTier));
+        syncTierState();
+        setChanged();
+    }
+
+    /** Keeps the block state in sync with the stored tier. */
+    public void syncTierState() {
+        if (level == null || level.isClientSide()) {
+            return;
+        }
+        BlockState state = getBlockState();
+        if (state.getBlock() instanceof VoidFurnaceBlock
+                && state.hasProperty(VoidFurnaceBlock.TIER)
+                && state.getValue(VoidFurnaceBlock.TIER) != tier) {
+            level.setBlock(worldPosition, state.setValue(VoidFurnaceBlock.TIER, Math.min(tier, 5)), 3);
+        }
+    }
+
     public boolean wirelessEnabled() {
         return wirelessEnabled;
     }
@@ -238,6 +258,7 @@ public class VoidFurnaceBlockEntity extends BlockEntity implements MenuProvider 
             return false;
         }
         tier = nextTier;
+        syncTierState();
         setChanged();
         return true;
     }
@@ -273,6 +294,7 @@ public class VoidFurnaceBlockEntity extends BlockEntity implements MenuProvider 
         if (level.isClientSide()) {
             return;
         }
+        syncTierState();
         // Make sure the optional AE2 grid node exists even before a cable asks for it.
         if (!gridHostAttempted) {
             gridHost();

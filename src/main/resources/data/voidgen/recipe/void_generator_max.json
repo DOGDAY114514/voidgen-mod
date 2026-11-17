@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "voidgen:void_generator"
+    },
+    {
+      "item": "voidgen:nest_upgrade_1"
+    },
+    {
+      "item": "voidgen:nest_upgrade_2"
+    },
+    {
+      "item": "voidgen:nest_upgrade_3"
+    },
+    {
+      "item": "voidgen:nest_upgrade_4"
+    },
+    {
+      "item": "voidgen:nest_upgrade_5"
+    }
+  ],
+  "result": {
+    "id": "voidgen:void_generator",
+    "count": 1,
+    "components": {
+      "minecraft:custom_data": {
+        "Tier": 5
+      }
+    }
+  }
+}

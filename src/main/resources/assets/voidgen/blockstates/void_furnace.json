@@ -1,7 +1,22 @@
 {
   "variants": {
-    "": {
+    "tier=0": {
       "model": "voidgen:block/void_furnace"
+    },
+    "tier=1": {
+      "model": "voidgen:block/void_furnace_t1"
+    },
+    "tier=2": {
+      "model": "voidgen:block/void_furnace_t2"
+    },
+    "tier=3": {
+      "model": "voidgen:block/void_furnace_t3"
+    },
+    "tier=4": {
+      "model": "voidgen:block/void_furnace_t4"
+    },
+    "tier=5": {
+      "model": "voidgen:block/void_furnace_t5"
     }
   }
 }

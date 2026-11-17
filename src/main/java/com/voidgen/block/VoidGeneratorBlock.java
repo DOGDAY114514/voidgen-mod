@@ -1,6 +1,7 @@
 package com.voidgen.block;
 
 import com.mojang.serialization.MapCodec;
+import com.voidgen.VoidGen;
 import com.voidgen.VoidStats;
 import com.voidgen.item.NestUpgradeItem;
 
@@ -11,7 +12,14 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -33,8 +41,24 @@ import net.minecraft.world.phys.BlockHitResult;
  * machines with an empty hand while it is equipped binds them.
  */
 public class VoidGeneratorBlock extends Block implements EntityBlock {
+    public static final IntegerProperty TIER = IntegerProperty.create("tier", 0, 5);
+
     public VoidGeneratorBlock(Properties properties) {
         super(properties);
+        registerDefaultState(this.stateDefinition.any().setValue(TIER, 0));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(TIER);
+    }
+
+    public static int tierOf(BlockState state) {
+        return state.hasProperty(TIER) ? state.getValue(TIER) : 0;
+    }
+
+    public static BlockState withTier(BlockState state, int tier) {
+        return state.hasProperty(TIER) ? state.setValue(TIER, Mth.clamp(tier, 0, 5)) : state;
     }
 
     @Override
@@ -119,5 +143,33 @@ public class VoidGeneratorBlock extends Block implements EntityBlock {
             return Component.translatable("gui.voidgen.infinite");
         }
         return Component.translatable("gui.voidgen.finite", VoidStats.fmtCompact(range));
+    }
+
+    @Override
+    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack tool) {
+        if (player.getAbilities().instabuild) {
+            return;
+        }
+        ItemStack drop = new ItemStack(VoidGen.VOID_GENERATOR_ITEM.get());
+        CompoundTag tag = new CompoundTag();
+        tag.putInt("Tier", tierOf(state));
+        drop.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
+        Block.popResource(level, pos, drop);
+    }
+
+    @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        if (level.isClientSide) {
+            return;
+        }
+        CustomData data = stack.get(DataComponents.CUSTOM_DATA);
+        int tier = data == null ? 0 : data.copyTag().getInt("Tier");
+        tier = Mth.clamp(tier, 0, 5);
+        if (tier > 0) {
+            level.setBlock(pos, withTier(state, tier), 3);
+            if (level.getBlockEntity(pos) instanceof VoidGeneratorBlockEntity be) {
+                be.setTier(tier);
+            }
+        }
     }
 }

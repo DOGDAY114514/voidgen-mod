@@ -137,6 +137,7 @@ public class VoidGeneratorBlockEntity extends BlockEntity implements IEnergyStor
         if (level.isClientSide()) {
             return;
         }
+        syncTierState();
         boolean changed = false;
         long rate = rate();
         long capacity = capacity();
@@ -242,6 +243,26 @@ public class VoidGeneratorBlockEntity extends BlockEntity implements IEnergyStor
         return tier;
     }
 
+    /** Sets the tier from a placed item and mirrors it into the block state. */
+    public void setTier(int newTier) {
+        this.tier = Math.max(0, Math.min(VoidStats.MAX_TIER, newTier));
+        syncTierState();
+        setChanged();
+    }
+
+    /** Keeps the block state in sync with the stored tier. */
+    public void syncTierState() {
+        if (level == null || level.isClientSide()) {
+            return;
+        }
+        BlockState state = getBlockState();
+        if (state.getBlock() instanceof VoidGeneratorBlock
+                && state.hasProperty(VoidGeneratorBlock.TIER)
+                && state.getValue(VoidGeneratorBlock.TIER) != tier) {
+            level.setBlock(worldPosition, state.setValue(VoidGeneratorBlock.TIER, Math.min(tier, 5)), 3);
+        }
+    }
+
     public boolean aeOutput() {
         return aeOutput;
     }
@@ -261,6 +282,7 @@ public class VoidGeneratorBlockEntity extends BlockEntity implements IEnergyStor
     public boolean tryUpgrade(int upgradeTier) {
         if (upgradeTier == tier + 1 && upgradeTier <= VoidStats.MAX_TIER) {
             tier = upgradeTier;
+            syncTierState();
             setChanged();
             return true;
         }
