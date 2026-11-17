@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -41,22 +42,37 @@ public final class VoidPowerNetwork {
         if (!(event.getLevel() instanceof Level level) || level.isClientSide()) {
             return;
         }
-        BlockPos pos = event.getBlockSnapshot().getPos();
-        if (level.getBlockEntity(pos) == null) {
-            return;
-        }
-        register(level, pos);
+        register(level, event.getBlockSnapshot().getPos());
     }
 
-    /** Adds a receiver position (idempotent). */
+    /**
+     * Adds a receiver position (idempotent). The block entity may not exist yet when this
+     * is called (place events fire before the block entity is attached, and pending chunk
+     * data is instantiated lazily), so existence is checked later, when power is pushed.
+     */
     public static void register(Level level, BlockPos pos) {
-        if (level.isClientSide() || level.getBlockEntity(pos) == null) {
+        if (level.isClientSide()) {
             return;
         }
         Set<BlockPos> seen = SEEN.computeIfAbsent(level.dimension(), key -> new HashSet<>());
         if (seen.add(pos)) {
             RECEIVERS.computeIfAbsent(level.dimension(), key -> new ArrayList<>()).add(pos);
         }
+    }
+
+    /** Finds an FE handler on a position, tolerating side-specific capabilities. */
+    public static IEnergyStorage energy(Level level, BlockPos pos) {
+        IEnergyStorage target = level.getCapability(Capabilities.EnergyStorage.BLOCK, pos, null);
+        if (target != null) {
+            return target;
+        }
+        for (Direction direction : Direction.values()) {
+            target = level.getCapability(Capabilities.EnergyStorage.BLOCK, pos, direction);
+            if (target != null) {
+                return target;
+            }
+        }
+        return null;
     }
 
     /**
@@ -77,7 +93,7 @@ public final class VoidPowerNetwork {
         // forces each pending block entity to be instantiated (LevelChunk.getBlockEntity
         // promotes it) before we register it.
         for (BlockPos pos : chunk.getBlockEntitiesPos()) {
-            if (level.getCapability(Capabilities.EnergyStorage.BLOCK, pos, null) != null) {
+            if (energy(level, pos) != null) {
                 register(level, pos);
             }
         }
@@ -130,7 +146,7 @@ public final class VoidPowerNetwork {
             if (aeAcceptor && !aeOutput) {
                 continue;
             }
-            IEnergyStorage target = level.getCapability(Capabilities.EnergyStorage.BLOCK, pos, null);
+            IEnergyStorage target = energy(level, pos);
             if (target == null || !target.canReceive()) {
                 continue;
             }
@@ -184,7 +200,7 @@ public final class VoidPowerNetwork {
             if (aeAcceptor && !aeOutput) {
                 continue;
             }
-            IEnergyStorage target = level.getCapability(Capabilities.EnergyStorage.BLOCK, pos, null);
+            IEnergyStorage target = energy(level, pos);
             if (target == null || !target.canReceive()) {
                 continue;
             }
